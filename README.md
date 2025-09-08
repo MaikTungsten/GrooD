@@ -171,7 +171,7 @@ python grood.py --bulk /path/to/bulkData --props /path/to/props \
 
 Example training & inference by providing single-cell data as input for condition-specific pseudobulk simulation:
 ```bash
-# Trains MultiGrooD with condition-specific pseudobulk simulation
+# Trains XGrooD with condition-specific pseudobulk simulation and uses trained model to deconvolve bulk RNA-seq data that is evaluated with proportions
 python grood.py --sc /path/to/scData --bulk /path/to/bulkData --props /path/to/props \
     --grood_mode xgrood --mode all --output /path/to/output/folder \
     --no_pseudobulks 1000 --no_cells 1000 --target condition \
@@ -198,10 +198,6 @@ source GrooD/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
-
-## Output explained
-
-The training output contains the model directory including the saved model and the estimator names, the corrected prediction directory including QC analysis, the pseudobulks simulated (only if providing single-cell data) and QC results for the uncorrected prediciton. The inference output also contains QC output for both corrected and uncorrected prediction (only if associated proportions are provided) as well as visualizations describing cell proportion distribution across samples in the inference result.
 
 ## Tests conducted so far
 
