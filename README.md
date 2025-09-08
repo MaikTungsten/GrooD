@@ -69,31 +69,49 @@ The pseudobulk simulation strategy is adapted from **TAPE** (https://github.com/
 
 --bulk              input bulk data path: either pseudobulk or bulk data for inference or all mode. Bulk can be in csv, tsv or h5ad format. In h5ad format, default
                     layer X needs to contain the desired data.
+
 --props             cell type proportions for evaluation of deconvolution of pseudobulk/bulk data in inference or all mode. OPTIONAL. Supply in csv or tsv format.
+
 --sc                input scRNA-seq data path, data in h5ad format for pseudobulk simulation
 
 ### Pseudobulk simulation
 
 --no_pseudobulks    Number of pseudobulks to simulate.
+
 --no_cells          Number of cells to sample per pseudobulk.
+
 --target            Specifiy condition or individual as additional layer for specific pseudobulk simulation. Optional.
+
 --target_name       Specify a single condition or individual, if simulation should be conducted for the specific condition or individual only. Works only, if target is specified, and if contained in specified target column in observations.
+
 --pseudobulks       Input path for pseudobulks, which can be in csv, tsv or h5ad format. OPTIONAL, if sc not set. Overrides sc, if pseudobulk_props provided.
+
 --pseudobulk_props  Input path for associated pseudobulk proportions. Can also be used as input for simulator, if pseudobulks not provided.
 
 ### Parameters
 
   --norm                Way how pseudobulks/bulks will be normalized prior to inference: none,CPM,rank,log. None only advised, if prenormalized data is provided.
+
   --feature_curation    "all", "mRNA" and "non_zero" only work do not work in inference mode; "intersect" options only work in mode "all": non_zero,mRNA_intersect,non_zero_intersect,intersect,all,mRNA
+
   --mode                train_test mode for model training and evaluation; inference mode for deconvolution of bulk transcriptomics data from trained model; all for both modi at once.
+
   --grood_mode          GrooD model implementation to use (only used in train_test mode): multigrood, xgrood, grood
+
   --depth DEPTH         maximal depth of the decision trees that will be trained. Only used in train-test mode.
+
   --n_estimators        number of trees to train. Only used in train-test mode.
+
   --learning_rate       supply learning_rate. Only used in train-test mode for grood_mode grood and xgrood.
+
   --loss_function       loss_function for xgrood and grood (absolute_error, squared_error). Only used in train-test mode.
+
   --min_samples_split   minimum number of samples to justify a split. Only used in train-test mode for grood and xgrood.
+
   --model_path          supply a pre-trained model by specifying its path. Only used in inference mode. Model should be a .pkl file. Only accepts custom GrooD models in pkl format.
+
   --threads THREADS     supply number of threads to use model with.
+
   --output OUTPUT       Specify a path to the output folder and a prefix added to all output files. Directory will be created, if it does not exist.
 
 
@@ -117,6 +135,7 @@ python grood.py --sc /path/to/scData \
     --grood_mode grood --mode train_test --output /path/to/output/train/folder \
     --no_pseudobulks 1000 --no_cells 1000 \
     --depth 4 --n_estimators 500 --learning_rate 0.01 --min_samples_split 50 --loss_function squared_error \
+    --feature_curation mRNA --norm CPM \
     --threads 16
 ```
 
@@ -126,6 +145,7 @@ Example training by providing pseudobulks and proportions as input:
 python grood.py --pseudobulks /path/to/pseudobulks --pseudobulk_props /path/to/pseudobulk_props \
     --grood_mode xgrood --mode train_test --output /path/to/output/train/folder \
     --depth 4 --n_estimators 500 --learning_rate 0.01 --min_samples_split 50 --loss_function absolute_error \
+    --feature_curation mRNA --norm CPM \
     --threads 8
 ```
 
@@ -136,11 +156,48 @@ python grood.py --sc /path/to/scData \
     --grood_mode multigrood --mode train_test --output /path/to/output/train/folder \
     --no_pseudobulks 1000 --no_cells 1000 --target condition \
     --depth 5 --n_estimators 128 --min_samples_split 50 \
+    --feature_curation non_zero --norm rank \
     --threads 8
 ```
 
+Example inference providing bulk, proportions and model_path:
+```bash
+# Inference on bulk data with trained model
+python grood.py --bulk /path/to/bulkData --props /path/to/props \
+    --mode inference --output /path/to/output/train/folder \
+    --model_path /path/to/trainedModel \
+    --threads 8
+```
+
+Example training & inference by providing single-cell data as input for condition-specific pseudobulk simulation:
+```bash
+# Trains MultiGrooD with condition-specific pseudobulk simulation
+python grood.py --sc /path/to/scData --bulk /path/to/bulkData --props /path/to/props \
+    --grood_mode xgrood --mode all --output /path/to/output/folder \
+    --no_pseudobulks 1000 --no_cells 1000 --target condition \
+    --depth 4 --n_estimators 500 --learning_rate 0.01 --min_samples_split 50 --loss_function absolute_error \
+    --feature_curation non_zero_intersect --norm rank \
+    --threads 16
+```
 
 
+## Installation
+
+Install with files from the ```env```directory. We provide a starting point for mamba/conda as well as pip environments.
+
+Mamba environment (conda analog)
+```bash
+mamba create -f GrooD.yml
+mamba activate GrooD
+```
+
+Pip environment
+```bash
+python -m venv GrooD
+source GrooD/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+```
 
 ## Output explained
 
@@ -148,10 +205,13 @@ The training output contains the model directory including the saved model and t
 
 ## Tests conducted so far
 
-- influence of amount of pseudobulks on model performance
-- influence of number of cells in single-cell reference on model performance
-- influence of number of cells to build pseudobulk on model performance
-- model performance evaluated on test data, real bulk data and pseudobulk data
+- influence of amount of pseudobulks on model performance --> 1000 seems fine
+- influence of number of cells in single-cell reference on model performance --> depends on size of single-cell dataset
+- influence of number of cells to build pseudobulk on model performance --> influence not too large
+- model performance evaluated on test data, real bulk data and pseudobulk data --> as expected pseudobulk performance is usually better
 - data used for training and testing so far:
     - single-cell data from Hao, 2021 (150k PBMCs, 7 cell types)
     - bulk data and associated proportions from Finotello, 2019 (9 samples, 7 cell types via FACS)
+    - BIU dataset
+    - Govaere dataset
+    - Baghela dataset
