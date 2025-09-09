@@ -339,3 +339,88 @@ def visualize_predict(pred, output):
 
     return None
 
+
+# Heatmap explaining prediction on feature level/expression level
+def explain_heatmap_features(model, estimators, data, prop, cell_type):
+
+    # Get most important features
+    index = estimators.index(cell_type)
+    feature_importance = model.estimators_[index].feature_importances_
+    sorted_idx = np.argsort(feature_importance) # sort highest to lowest importance and get the feature indices
+    most_important_features = sorted_idx[-20:] # get 20 most important features
+    genes = np.flip(np.array(model.estimators_[index].feature_names_in_.tolist())[most_important_features])
+
+    # Format data
+    data_selected = data[genes].transpose() # subset bulk data
+    #data_selected = pd.DataFrame(index=data_selected.index.tolist(), columns=data_selected.columns.tolist(), data=stats.zscore(np.array(data_selected), axis = 1))
+    prop_series = pd.Series(prop[cell_type]) # series for proportion for cell type investigated here
+
+    # Remove genes with all-zero expression across samples
+    non_zero_genes = (data_selected.sum(axis=1) != 0)
+    data_selected = data_selected.loc[non_zero_genes]
+
+    # Create clustermap
+    g = sns.clustermap(
+        data_selected,
+        col_cluster=True,
+        row_cluster=False,
+        cmap="viridis",
+        figsize=(8, 6),
+        dendrogram_ratio=0.35,
+        z_score=0
+    )
+
+    # Reorder the sample values to match clustered column order
+    col_order = [data_selected.columns[i] for i in g.dendrogram_col.reordered_ind]
+    prop_series_reordered = prop_series[col_order]
+
+    # Add a new axis on top for the bar plot
+    # Position: [left, bottom, width, height] in figure coordinates
+    bar_height = 0.5  # relative height of bar plot
+    heatmap_pos = g.ax_heatmap.get_position()
+
+    bar_ax = g.fig.add_axes([
+        heatmap_pos.x0,                      # left
+        heatmap_pos.y1 + 0.02,               # bottom just above heatmap
+        heatmap_pos.width,                   # same width as heatmap
+        bar_height / g.fig.get_size_inches()[1]  # normalized height
+    ])
+
+    # ---- 5. Plot bars ----
+    bar_ax.bar(
+        x=np.arange(len(prop_series_reordered)),
+        height=prop_series_reordered,
+        color="gray"
+    )
+
+    # Remove x ticks
+    bar_ax.set_xticks([])
+    bar_ax.set_xlim(-0.5, len(prop_series_reordered) - 0.5)
+    bar_ax.set_ylabel(f"Proportion {cell_type}")
+
+    # Optional: make y-axis more compact
+    bar_ax.spines["top"].set_visible(False)
+    bar_ax.spines["right"].set_visible(False)
+
+    #plt.title(f"Prediction and Expression of most important features for {cell_type}", )
+
+    return g
+
+def get_explain_heatmap(model, estimators, bulk, pred, output):
+
+    from matplotlib.backends.backend_pdf import PdfPages
+
+    with PdfPages(f"{output}Explaining_predictions_heatmaps.pdf") as pdf:
+        for cell_type in estimators:
+            explain_heatmap_features(model, estimators, bulk, pred, cell_type)
+
+            plt.figtext(
+                0.5,               # x-position (0 to 1, fraction of figure width)
+                0.98,              # y-position (just above the bottom)
+                f"Analysis for cell type: {cell_type}",  # the text
+                ha='center',       # horizontal alignment
+                fontsize=10
+            )
+
+            pdf.savefig()
+            plt.close()

@@ -13,7 +13,7 @@ import scanpy as sc
 from bin.tools import create_pred_dir
 from bin.deconvolution import train_eval_GrooD, train_eval_XGrooD, train_eval_MultiGrooD, eval_inference, inference_grood_models, inference_loaded_grood
 from bin.preprocessing import load_train_test_data, load_inference_data, load_all_data
-from bin.evaluation import visualize_predict
+from bin.evaluation import visualize_predict, get_explain_heatmap
 
 # Set up argparser
 
@@ -219,11 +219,15 @@ def main():
         bulk, props = load_inference_data(args)
 
         # Inference
-        model, pred = inference_grood_models(args.model_path, bulk, inference_dir)
+        model, pred, mode, bulk_processed = inference_grood_models(args.model_path, bulk, inference_dir)
 
         # Visualization of inference result
         print('Visualizing deconvolution results...')
         visualize_predict(pred, inference_dir)
+
+        # Generate explaining prediction heatmaps
+        if mode != "multigrood":
+            get_explain_heatmap(model, pred.columns.tolist(), bulk_processed, pred, inference_dir)
 
         # Evaluation
         if props == None:
@@ -334,6 +338,10 @@ def main():
         # Visualization of inference result
         print('Visualizing deconvolution results...')
         visualize_predict(pred, inference_dir)
+
+        # Visualization of explain heatmap only for GrooD and XGrooD
+        if args.grood_mode != "multigrood":
+            get_explain_heatmap(model, list(model.estimators_), bulk, pred, inference_dir)
 
         # Evaluation
         if props == None:

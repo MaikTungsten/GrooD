@@ -387,7 +387,7 @@ def inference_grood_models(model_path, bulk, output):
         
         pred.to_csv(output + 'Predicted_cell_type_proportions.csv')
 
-    return model, pred
+    return model, pred, model_type, bulk
 
 
 # Inference of cell type proportions using saved model (for inference mode)
