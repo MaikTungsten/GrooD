@@ -50,7 +50,7 @@ def train_eval_GrooD(pb, props, params, output, threads, norm):
     # Add metadata to model
     metadata = {"estimators" : Y_train.columns.tolist(), # estimators correspond to the cell types, one regressor per cell type
                 "model_type" : "grood",
-                "data_norm" : norm}
+                "norm" : norm}
     
     annotated_model = {"metadata" : metadata,
                        "model" : multi_reg_model}
@@ -137,7 +137,7 @@ def train_eval_XGrooD(pb, props, params, output, threads, norm):
     # Add metadata to model
     metadata = {"estimators" : Y_train.columns.tolist(), # estimators correspond to the cell types, one regressor per cell type
                 "model_type" : "xgrood",
-                "data_norm" : norm}
+                "norm" : norm}
     
     annotated_model = {"metadata" : metadata,
                        "model" : multi_reg_model}
@@ -253,7 +253,7 @@ def train_eval_MultiGrooD(pb, props, params, output, threads, norm) -> None:
     # Add metadata to model
     metadata = {"estimators" : Y_train.columns.tolist(), # estimators correspond to the cell types predicted by the model
                 "model_type" : "multigrood",
-                "data_norm" : norm}
+                "norm" : norm}
     
     annotated_model = {"metadata" : metadata,
                        "model" : booster}
@@ -501,7 +501,7 @@ def rescale_pred(pred):
     """
 
     rescaled_pred = pred
-    for row in pred.index.tolist():
+    for row in range(pred.shape[0]):
 
         prop_sum = np.sum(pred[row,:])
 

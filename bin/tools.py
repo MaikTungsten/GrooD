@@ -562,6 +562,12 @@ def pseudobulk_norm(pseudobulks, norm, filter_genes):
     """
     Pseudobulk subsetting (filtering) and normalization as used in simulator
     """
+
+    # mRNA_file_path 
+    script_dir = Path(__file__).resolve().parent
+
+    # path to the text file
+    file_path = script_dir / "mRNA_annotation.tsv"
     
     # CPM normalization option
     if norm == 'CPM':
@@ -579,7 +585,7 @@ def pseudobulk_norm(pseudobulks, norm, filter_genes):
             proportionsDF = pd.DataFrame(pseudobulks.obs) # does not need normalization --> proportions
 
             # Import gene list for filtering
-            gene_list_df = pd.read_csv('mRNA_annotation.tsv', header=0, delimiter='\t')
+            gene_list_df = pd.read_csv(file_path, header=0, delimiter='\t')
             gene_list = list(gene_list_df['gene_name'])
 
             # Select (and add) genes as necessary
@@ -614,7 +620,7 @@ def pseudobulk_norm(pseudobulks, norm, filter_genes):
             proportionsDF = pd.DataFrame(pseudobulks.obs) # does not need normalization --> proportions
 
             # Import gene list for filtering
-            gene_list_df = pd.read_csv('mRNA_annotation.tsv', header=0, delimiter='\t')
+            gene_list_df = pd.read_csv(file_path, header=0, delimiter='\t')
             gene_list = list(gene_list_df['gene_name'])
 
             # Select (and add) genes as necessary
@@ -648,7 +654,7 @@ def pseudobulk_norm(pseudobulks, norm, filter_genes):
         ##### Only mRNA genes #####
         if filter_genes == "mRNA":
             # Import gene list for filtering
-            gene_list_df = pd.read_csv('mRNA_annotation.tsv', header=0, delimiter='\t')
+            gene_list_df = pd.read_csv(file_path, header=0, delimiter='\t')
             gene_list = list(gene_list_df['gene_name'])
 
             # Select (and add) genes as necessary
@@ -705,10 +711,10 @@ def create_train_dir(path):
         path = path[:-1]
         
     pathlib.Path(path).mkdir(parents=True, exist_ok=True)
-    pathlib.Path(path + 'model').mkdir(parents=True, exist_ok=True)
+    pathlib.Path(path + 'train/model').mkdir(parents=True, exist_ok=True)
 
-    train_path = path
-    model_path = path + 'model/'
+    train_path = path + 'train/'
+    model_path = path + 'train/model/'
 
     return train_path, model_path
 
@@ -744,6 +750,22 @@ def create_pred_dir(path):
     pathlib.Path(path + 'Prediction').mkdir(parents=True, exist_ok=True)
 
     outpath = path + 'Prediction/'
+
+    return outpath
+
+def create_inference_dir(path):
+
+    """
+    Create directory for storing inference/prediction results
+    """
+
+    char = "/"
+    while path[-1] != char:
+        path = path[:-1]
+        
+    pathlib.Path(path + 'inference').mkdir(parents=True, exist_ok=True)
+
+    outpath = path + 'inference/'
 
     return outpath
 

@@ -31,10 +31,10 @@ def load_train_test_data(args):
     
 
     # CASE 1: single-cell data for simulation provided
-    if args.sc != None:
+    if args.sc is not None:
         print('Single-cell data provided. Please ensure that a column termed cell_type is included in obs of AnnData.')
         print('If bulk data path was provided, it will be overwritten by the pseudobulk simulation.')
-        if args.pseudobulk_props == None:
+        if args.pseudobulk_props is None:
             print('No cell type proportions provided. New proportions will be simulated.')
             pb, pb_props = simulator(samplenum=args.no_pseudobulks,
                                     sc_path=args.sc,
@@ -45,7 +45,7 @@ def load_train_test_data(args):
                                     threads=args.threads,
                                     norm=args.norm,
                                     filter_genes=args.feature_curation)
-        elif args.pseudobulk_props != None:
+        elif args.pseudobulk_props is not None:
             print('Using provided cell type proportions for simulation.')
             pb, pb_props = simulator(samplenum=args.no_pseudobulks,
                                     sc_path=args.sc,
@@ -60,7 +60,7 @@ def load_train_test_data(args):
             
 
     # CASE 2: pseudobulks and corresponding proportions provided
-    elif args.pseudobulks != None & args.pseudobulk_props != None:
+    elif args.pseudobulks is not None and args.pseudobulk_props is not None:
 
         # Pseudobulks
         if args.pseudobulks[-4:] == '.csv':
@@ -84,7 +84,7 @@ def load_train_test_data(args):
 
 
     # CASE 3: pseudobulks but no corresponding proportions provided
-    elif args.pseudobulks != None & args.pseudobulk_props == None:
+    elif args.pseudobulks is not None and args.pseudobulk_props is not None:
         raise ValueError('Pseudobulks provided for train_test mode, but associated proportions are missing.')
     
     return pb, pb_props
@@ -97,7 +97,7 @@ def load_inference_data(args):
     """
 
     # BULK
-    if args.bulk != None:
+    if args.bulk is not None:
         print('Bulk data provided.')
         if args.pseudobulks[-4:] == '.csv':
             bulk = pd.read_csv(args.pseudobulks, index_col=0)
@@ -106,14 +106,14 @@ def load_inference_data(args):
         elif args.pseudobulks[-5:] == '.h5ad':
             bulk = sc.read_h5ad(args.pseudobulks)
             bulk = bulk.to_df()
-        elif args.bulk == None:
+        elif args.bulk is None:
             raise ValueError('No bulk data provided, but required for inference.')
         else:
             raise ValueError('Wrong input format for bulk data. Please supply in either csv, tsv or h5ad format.')
         
 
     # PROPORTIONS
-    if args.props != None:
+    if args.props is not None:
 
         print('Proportions are provided and will be considered for evaluation.')
 
@@ -126,13 +126,17 @@ def load_inference_data(args):
             raise ValueError('Wrong input format for cell type proportions. Please supply in csv or tsv format.')
 
 
-    # CASE, if bulk and pseudobulks are not matched
-    if props.shape[0] != bulk.shape[0]:
-        print(f"Bulks and proportions are provided for different sample numbers. Bulk sample number: {bulk.shape[0]}, proportion sample number: {props.shape[0]}.")
-        print("Proportions removed. Inference without evaluation.")
+        # CASE, if bulk and pseudobulks are not matched
+        if props.shape[0] != bulk.shape[0]:
+            print(f"Bulks and proportions are provided for different sample numbers. Bulk sample number: {bulk.shape[0]}, proportion sample number: {props.shape[0]}.")
+            print("Proportions removed. Inference without evaluation.")
+            props = None
+
+    else:
         props = None
     
     return bulk, props
+
 
 
 def load_all_data(args):
@@ -150,10 +154,10 @@ def load_all_data(args):
     """
 
     # CASE 1: single-cell data for simulation provided
-    if args.sc != None:
+    if args.sc is not None:
         print('Single-cell data provided. Please ensure that a column termed cell_type is included in obs of AnnData.')
         print('If bulk data path was provided, it will be overwritten by the pseudobulk simulation.')
-        if args.pseudobulk_props == None:
+        if args.pseudobulk_props is None:
             print('No cell type proportions provided. New proportions will be simulated.')
             pb, pb_props = simulator(samplenum=args.no_pseudobulks,
                                     sc_path=args.sc,
@@ -164,7 +168,7 @@ def load_all_data(args):
                                     threads=args.threads,
                                     norm="none",
                                     filter_genes="all")
-        elif args.props != None:
+        elif args.pseudobulk_props is not None:
             print('Using provided cell type proportions for simulation.')
             pb, pb_props = simulator(samplenum=args.no_pseudobulks,
                                     sc_path=args.sc,
@@ -179,7 +183,7 @@ def load_all_data(args):
             
 
     # Step 2: pseudobulks and corresponding proportions provided
-    elif args.pseudobulks != None & args.pseudobulk_props != None:
+    elif args.pseudobulks is not None and args.pseudobulk_props is not None:
 
         print('Please ensure provided pseudobulks are already normalized with given strategy: {args.norm}')
 
@@ -205,29 +209,29 @@ def load_all_data(args):
 
 
     # Scenario: pseudobulks but no corresponding proportions provided
-    elif args.pseudobulks != None & args.pseudobulk_props == None:
+    elif args.pseudobulks is not None and args.pseudobulk_props is None:
         raise ValueError('Pseudobulks provided for train_test mode, but associated proportions are missing.')
     
 
     # STEP 3: bulks and optional proportions
     # BULK
-    if args.bulk != None:
+    if args.bulk is not None:
         print('Bulk data provided.')
-        if args.pseudobulks[-4:] == '.csv':
-            bulk = pd.read_csv(args.pseudobulks, index_col=0)
-        elif args.pseudobulks[-4:] == '.tsv':
-            bulk = pd.read_csv(args.pseudobulks, index_col=0, sep='\t')
-        elif args.pseudobulks[-5:] == '.h5ad':
-            bulk = sc.read_h5ad(args.pseudobulks)
+        if args.bulk[-4:] == '.csv':
+            bulk = pd.read_csv(args.bulk, index_col=0)
+        elif args.bulk[-4:] == '.tsv':
+            bulk = pd.read_csv(args.bulk, index_col=0, sep='\t')
+        elif args.bulk[-5:] == '.h5ad':
+            bulk = sc.read_h5ad(args.bulk)
             bulk = bulk.to_df()
-        elif args.bulk == None:
+        elif args.bulk is None:
             raise ValueError('No bulk data provided, but required for inference.')
         else:
             raise ValueError('Wrong input format for bulk data. Please supply in either csv, tsv or h5ad format.')
         
 
     # PROPORTIONS
-    if args.props != None:
+    if args.props is not None:
 
         print('Proportions are provided and will be considered for evaluation.')
 
@@ -240,11 +244,20 @@ def load_all_data(args):
             raise ValueError('Wrong input format for cell type proportions. Please supply in csv or tsv format.')
 
 
-    # scenario, if bulk and pseudobulks are not matched
-    if props.shape[0] != bulk.shape[0]:
-        print(f"Bulks and proportions are provided for different sample numbers. Bulk sample number: {bulk.shape[0]}, proportion sample number: {props.shape[0]}.")
-        print("Proportions removed. Inference without evaluation.")
+        # scenario, if bulk and pseudobulks are not matched
+        if props.shape[0] != bulk.shape[0]:
+            print(f"Bulks and proportions are provided for different sample numbers. Bulk sample number: {bulk.shape[0]}, proportion sample number: {props.shape[0]}.")
+            print("Proportions removed. Inference without evaluation.")
+            props = None
+
+    else:
         props = None
+
+    # mRNA_file_path 
+    script_dir = Path(__file__).resolve().parent
+
+    # path to the text file
+    file_path = script_dir / "mRNA_annotation.tsv"
 
 
     # STEP 4: subsetting data
@@ -261,7 +274,7 @@ def load_all_data(args):
         Extract all mRNA genes from pb and bulk; missing genes will be imputed by 0
         """
         # Import gene list for filtering
-        gene_list_df = pd.read_csv('mRNA_annotation.tsv', header=0, delimiter='\t')
+        gene_list_df = pd.read_csv(file_path, header=0, delimiter='\t')
         gene_list = list(gene_list_df['gene_name'])
 
         # Subset pb & bulk
@@ -304,7 +317,7 @@ def load_all_data(args):
         pb = pb[common_genes]
 
         # Import gene list for filtering
-        gene_list_df = pd.read_csv('mRNA_annotation.tsv', header=0, delimiter='\t')
+        gene_list_df = pd.read_csv(file_path, header=0, delimiter='\t')
         gene_list = list(gene_list_df['gene_name'])
 
         # Subset pb & bulk
