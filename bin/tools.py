@@ -564,7 +564,7 @@ def pseudobulk_norm(pseudobulks, norm, filter_genes):
     """
 
     # mRNA_file_path 
-    script_dir = Path(__file__).resolve().parent
+    script_dir = pathlib.Path(__file__).resolve().parent
 
     # path to the text file
     file_path = script_dir / "mRNA_annotation.tsv"

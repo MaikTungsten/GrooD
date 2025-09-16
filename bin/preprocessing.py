@@ -13,6 +13,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.utils.fixes import parse_version
 from bin.simulation import simulator
 from bin.tools import create_pseudobulk_dir, main_gene_selection, bulk_norm, remove_zero_variance
+from pathlib import Path
 
 
 # loading and formatting of pseudobulk or bulk data
@@ -99,12 +100,12 @@ def load_inference_data(args):
     # BULK
     if args.bulk is not None:
         print('Bulk data provided.')
-        if args.pseudobulks[-4:] == '.csv':
-            bulk = pd.read_csv(args.pseudobulks, index_col=0)
-        elif args.pseudobulks[-4:] == '.tsv':
-            bulk = pd.read_csv(args.pseudobulks, index_col=0, sep='\t')
-        elif args.pseudobulks[-5:] == '.h5ad':
-            bulk = sc.read_h5ad(args.pseudobulks)
+        if args.bulk[-4:] == '.csv':
+            bulk = pd.read_csv(args.bulk, index_col=0)
+        elif args.bulk[-4:] == '.tsv':
+            bulk = pd.read_csv(args.bulk, index_col=0, sep='\t')
+        elif args.bulk[-5:] == '.h5ad':
+            bulk = sc.read_h5ad(args.bulk)
             bulk = bulk.to_df()
         elif args.bulk is None:
             raise ValueError('No bulk data provided, but required for inference.')
@@ -185,7 +186,7 @@ def load_all_data(args):
     # Step 2: pseudobulks and corresponding proportions provided
     elif args.pseudobulks is not None and args.pseudobulk_props is not None:
 
-        print('Please ensure provided pseudobulks are already normalized with given strategy: {args.norm}')
+        print(f"Please ensure provided pseudobulks are already normalized with given strategy: {args.norm}")
 
         # Pseudobulks
         if args.pseudobulks[-4:] == '.csv':

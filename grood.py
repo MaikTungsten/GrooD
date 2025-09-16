@@ -227,7 +227,7 @@ def main():
 
         # Generate explaining prediction heatmaps
         if mode != "multigrood":
-            get_explain_heatmap(model["model"], pred.columns.tolist(), bulk_processed, pred, inference_dir)
+            get_explain_heatmap(model, pred.columns.tolist(), bulk_processed, pred, inference_dir)
 
         # Evaluation
         if props is None:
