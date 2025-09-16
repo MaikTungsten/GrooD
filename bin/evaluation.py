@@ -359,6 +359,10 @@ def explain_heatmap_features(model, estimators, data, prop, cell_type):
     non_zero_genes = (data_selected.sum(axis=1) != 0)
     data_selected = data_selected.loc[non_zero_genes]
 
+    # Remove genes with zero variance
+    non_zero_var_genes = (data_selected.var(axis=1) != 0)
+    data_selected = data_selected.loc[non_zero_var_genes]
+
     # Create clustermap
     g = sns.clustermap(
         data_selected,
