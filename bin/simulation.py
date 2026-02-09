@@ -19,6 +19,8 @@ def simulator(ncells = 1000, samplenum = 5000,
               threads = 8, target = None, target_name = None):
     
     """
+    Simulates pseudobulks from scRNA-seq data
+
     ncells: number of cells to select for each pseudobulk
     samplenum: number of pseudobulks to generate in total
     sc_path: path to single-cell data in h5ad format
@@ -45,12 +47,12 @@ def simulator(ncells = 1000, samplenum = 5000,
     # Extract relevant layer from sc data
     if sc_layer == 'X':
         print('Using default layer for pseudobulk simulation.')
-        scData = inData.to_df() # get X to dataframe
-        scData['CellType'] = inData.obs['cell_type'] # annotate a CellType column from cell_type column in obs
+        scData = inData.to_df() 
+        scData['CellType'] = inData.obs['cell_type']
     elif sc_layer != 'X':
         print('Using layer ' + sc_layer + ' from scRNA-seq data for pseudobulk simulation.')
-        scData = inData.to_df(layer = sc_layer) # get X to dataframe
-        scData['CellType'] = inData.obs['cell_type'] # annotate a CellType column from cell_type column in obs
+        scData = inData.to_df(layer = sc_layer) 
+        scData['CellType'] = inData.obs['cell_type']
 
     if 'individual' in inData.obs.columns.tolist():
         scData['individual'] = inData.obs['individual']

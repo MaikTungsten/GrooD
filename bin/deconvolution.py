@@ -64,7 +64,8 @@ def train_eval_GrooD(pb, props, params, output, threads, norm):
     pred = multi_reg_model.predict(X_test)
     pred = rescale_pred(pred)
     pred = pd.DataFrame(data=pred,
-                        columns=['Pred ' + str(x) for x in Y_test.columns.tolist()],
+                        # columns=['Pred ' + str(x) for x in Y_test.columns.tolist()],
+                        columns=['Pred ' + str(x) for x in metadata['estimators']],
                         index=X_test.index.tolist())
 
     # Compute overall mean_squared error
@@ -458,7 +459,9 @@ def eval_inference(pred, groundTruth, output):
     Plot QC metrics in annotated heatmap
     Create regression, error and response plot
     """
-    
+
+    groundTruth.sort_index(axis=1, inplace=True)
+    pred.sort_index(axis=1, inplace=True)
     pred.columns = ['Pred ' + str(x) for x in pred.columns.tolist()]
 
     # Compute overall mean_squared error

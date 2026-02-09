@@ -1,4 +1,3 @@
-name: GrooD
 channels:
   - bioconda
   - conda-forge

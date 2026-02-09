@@ -31,8 +31,11 @@ def simulate_single_pseudobulk(sample_prop, scData, celltype_groups, allcellname
 
 # Simulator for proportions
 
-def simulate_proportions(props, random_state, d_prior, num_celltype, samplenum, sparse, sparse_prob, rare, rare_percentage):
+def simulate_proportions(props, random_state, d_prior, num_celltype, samplenum, sparse, sparse_prob, rare, rare_percentage,
+                         #unknown
+                        ):
 
+    # TODO: implement unknown content modelling
     """
     Simulates proportions (or returns already given proportions)
     Parameters:
@@ -45,6 +48,11 @@ def simulate_proportions(props, random_state, d_prior, num_celltype, samplenum, 
 
     if not isinstance(props, pd.DataFrame):
         # generate random cell type proportions
+
+        # if not unknown:
+        #     num_celltype = num_celltype
+        # else:
+        #     num_celltype += 1
 
         if random_state is not None and isinstance(random_state, int):
             print('Random state specified. This will improve the reproducibility.')
@@ -61,7 +69,7 @@ def simulate_proportions(props, random_state, d_prior, num_celltype, samplenum, 
                                                 'to the number of cell types'
             if isinstance(random_state, int):
                 np.random.seed(random_state)
-            prop = np.random.dirichlet(d_prior, samplenum) # d_prior would set an initial cell type distribution to randomly and slightly alter for samplenum
+            prop = np.random.dirichlet(d_prior, samplenum) # d_prior would set an initial cell type distribution for given samplenum
             print('Dirichlet cell fractions are generated.')
 
         prop = prop / np.sum(prop, axis=1).reshape(-1, 1) # scale to have percentage proportions for each cell type summing up to 100 %; each row is one simulated sample and its proportions
@@ -80,7 +88,7 @@ def simulate_proportions(props, random_state, d_prior, num_celltype, samplenum, 
         if rare:
             print(
                 'Selected rare, thus some cell type fractions are very small (<3%), '
-                'this celltype is randomly chosen by percentage you set before.')
+                'this celltype is randomly chosen by percentage set before.')
             ## choose celltype to be rare
             np.random.seed(0)
             indices = np.random.choice(np.arange(prop.shape[1]), replace=False, size=int(prop.shape[1] * rare_percentage))
@@ -117,7 +125,7 @@ def generate_simulated_data(scData, d_prior=None,
     # Get number and groups of cell types present
       
     num_celltype = len(scData['CellType'].value_counts())
-    celltype_groups = scData.groupby('CellType').groups # dictionary of cell types
+    celltype_groups = scData.groupby('CellType').groups
     scData = scData.drop(columns=['CellType', 'individual', 'condition'])
     scData = scData.astype(np.float32)
     
@@ -127,7 +135,7 @@ def generate_simulated_data(scData, d_prior=None,
 
     # precise number for each celltype
     cell_num = np.floor(n * prop) # from proportions get the number of cells per cell type to be sampled given n (e.g. n=1000 cells)
-
+    
     # precise proportion based on cell_num
     prop = cell_num / np.sum(cell_num, axis=1).reshape(-1, 1) # then, obtain accurate proportions that fit the given number n
 
@@ -147,6 +155,7 @@ def generate_simulated_data(scData, d_prior=None,
 
     sample = np.stack(results)
 
+    # Create final dataframes
     if not isinstance(props, pd.DataFrame):
         sampleDF = pd.DataFrame(sample, index=['Sample_'+str(i) for i in range(1,prop.shape[0]+1)], columns = genes[0:sample.shape[1]])
         prop = pd.DataFrame(prop, index = ['Sample_'+str(i) for i in range(1,prop.shape[0]+1)], columns=celltype_groups.keys())
@@ -299,7 +308,7 @@ def generate_simulated_data_per_target(scData,
             prop = cell_num / np.sum(cell_num, axis=1).reshape(-1, 1) # then, obtain accurate proportions that fit the given number n
 
             # start sampling
-            allcellname = celltype_groups.keys() # cell type names
+            allcellname = celltype_groups.keys()
             print(f"Allcellname: {allcellname}")
             print('Sampling cells to compose pseudo-bulk data...')
 
@@ -480,6 +489,8 @@ def main_gene_selection(X_df, gene_list):
     Returns:
         adata_new->`~anndata.AnnData` object
         to_fill_columns->list: zero padding gene
+
+    Adapted from scFoundation paper/GitHub repo
     """
     X_df = X_df.fillna(0)
     to_fill_columns = list(set(gene_list) - set(X_df.columns))
@@ -572,7 +583,7 @@ def pseudobulk_norm(pseudobulks, norm, filter_genes):
     # CPM normalization option
     if norm == 'CPM':
         print('Scaling pseudobulks to CPM.')
-        proportionsDF = pd.DataFrame(pseudobulks.obs) # does not need normalization --> proportions
+        proportionsDF = pd.DataFrame(pseudobulks.obs)
 
         ##### All genes #####
         if filter_genes == "all":
@@ -582,7 +593,7 @@ def pseudobulk_norm(pseudobulks, norm, filter_genes):
         ##### Only mRNA genes #####
         elif filter_genes == "mRNA":
             pseudobulkDF = pd.DataFrame(pseudobulks.X, index=pseudobulks.obs_names, columns=pseudobulks.var_names) 
-            proportionsDF = pd.DataFrame(pseudobulks.obs) # does not need normalization --> proportions
+            proportionsDF = pd.DataFrame(pseudobulks.obs)
 
             # Import gene list for filtering
             gene_list_df = pd.read_csv(file_path, header=0, delimiter='\t')
@@ -603,11 +614,11 @@ def pseudobulk_norm(pseudobulks, norm, filter_genes):
             subset_pseudobulks = anndata.AnnData(X=df.values, obs=pseudobulks.obs, var=pd.DataFrame(index=df.columns))
             sc.pp.normalize_total(subset_pseudobulks, target_sum=1e6)
             pseudobulkDF = pd.DataFrame(subset_pseudobulks.X, index=subset_pseudobulks.obs_names, columns=subset_pseudobulks.var_names)
-            proportionsDF = pd.DataFrame(subset_pseudobulks.obs) # does not need normalization --> proportions
+            proportionsDF = pd.DataFrame(subset_pseudobulks.obs)
 
     elif norm == 'log':
         print('Log normalizing pseudobulks.')
-        proportionsDF = pd.DataFrame(pseudobulks.obs) # does not need normalization --> proportions
+        proportionsDF = pd.DataFrame(pseudobulks.obs)
 
         ##### All genes #####
         if filter_genes == "all":
@@ -617,7 +628,7 @@ def pseudobulk_norm(pseudobulks, norm, filter_genes):
         ##### Only mRNA genes #####
         elif filter_genes == "mRNA":
             pseudobulkDF = pd.DataFrame(pseudobulks.X, index=pseudobulks.obs_names, columns=pseudobulks.var_names) 
-            proportionsDF = pd.DataFrame(pseudobulks.obs) # does not need normalization --> proportions
+            proportionsDF = pd.DataFrame(pseudobulks.obs)
 
             # Import gene list for filtering
             gene_list_df = pd.read_csv(file_path, header=0, delimiter='\t')
@@ -638,12 +649,12 @@ def pseudobulk_norm(pseudobulks, norm, filter_genes):
             subset_pseudobulks = anndata.AnnData(X=df.values, obs=pseudobulks.obs, var=pd.DataFrame(index=df.columns))
             sc.pp.log1p(subset_pseudobulks)
             pseudobulkDF = pd.DataFrame(subset_pseudobulks.X, index=subset_pseudobulks.obs_names, columns=subset_pseudobulks.var_names)
-            proportionsDF = pd.DataFrame(subset_pseudobulks.obs) # does not need normalization --> proportions
+            proportionsDF = pd.DataFrame(subset_pseudobulks.obs)
 
     # Rank normalization option
     elif norm == 'rank':
         print('Ranking genes in pseudobulks.')
-        proportionsDF = pd.DataFrame(pseudobulks.obs) # does not need normalization --> proportions
+        proportionsDF = pd.DataFrame(pseudobulks.obs)
         
         ##### All genes #####
         if filter_genes == "all":
@@ -679,7 +690,7 @@ def pseudobulk_norm(pseudobulks, norm, filter_genes):
     elif norm == 'none':
         print('Returning raw summed counts in pseudobulks.')
         pseudobulkDF = pd.DataFrame(pseudobulks.X, index=pseudobulks.obs_names, columns=pseudobulks.var_names) 
-        proportionsDF = pd.DataFrame(pseudobulks.obs) # does not need normalization --> proportions
+        proportionsDF = pd.DataFrame(pseudobulks.obs)
 
         ##### Only mRNA genes #####
         if filter_genes == "mRNA":
@@ -695,7 +706,7 @@ def pseudobulk_norm(pseudobulks, norm, filter_genes):
             df = pseudobulks.to_df()
             df = remove_zero_variance(df)
             pseudobulkDF = df
-            proportionsDF = pd.DataFrame(subset_pseudobulks.obs) # does not need normalization --> proportions
+            proportionsDF = pd.DataFrame(subset_pseudobulks.obs)
 
     return proportionsDF, pseudobulkDF
 

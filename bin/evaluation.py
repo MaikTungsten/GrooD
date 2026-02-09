@@ -36,9 +36,9 @@ def compare_data(x, y, MT, output, plotType):
     inferenceCells = y.columns.tolist()
 
     fig, axes = plt.subplots(rows, cols, figsize=(cols * 4, rows * 3))
-    axes = np.array(axes) # axes must be an iterable array
+    axes = np.array(axes)
 
-    axes = axes.flatten() # flatten in case of multi-dimensionality
+    axes = axes.flatten()
 
     # Plot data
     MT['SampleID'] = MT.index.tolist()
@@ -91,6 +91,7 @@ def compare_data(x, y, MT, output, plotType):
 
     plt.tight_layout()
     plt.savefig(output + plotType + '_plot.pdf', transparent = True, dpi = 300, format = 'pdf')
+    plt.savefig(output + plotType + '_plot.svg', transparent = True, dpi = 300, format = 'svg')
     plt.clf()
 
 
@@ -114,9 +115,9 @@ def plot_feature_importance(model, estimators, output):
     cols = math.ceil(n/rows)
 
     fig, axes = plt.subplots(rows, cols, figsize=(cols * 6, rows * 5))
-    axes = np.array(axes) # axes must be an iterable array
+    axes = np.array(axes)
 
-    axes = axes.flatten() # flatten in case of multi-dimensionality
+    axes = axes.flatten()
 
     # iterate over n or cellTypes
     for i in range(0,len(cellTypes)):
@@ -135,6 +136,7 @@ def plot_feature_importance(model, estimators, output):
 
     plt.tight_layout()
     plt.savefig(output + 'Feature_importance_plot.pdf', transparent = True, dpi = 300, format = 'pdf')
+    plt.savefig(output + 'Feature_importance_plot.svg', transparent = True, dpi = 300, format = 'svg')
     plt.clf()
 
 # Plot annotated heatmap
@@ -186,6 +188,7 @@ def annotated_heatmap(df, output):
     fig.colorbar(im2, cax = cax, ax = ax2)
 
     plt.savefig(output + 'QC_metrics_plot.pdf', transparent = True, dpi = 300, format = 'pdf')
+    plt.savefig(output + 'QC_metrics_plot.svg', transparent = True, dpi = 300, format = 'svg')
     plt.clf()
 
 
@@ -263,14 +266,6 @@ def getCorr(df, cellTypes):
         g = abs_deviation(xdata, ydata)
         absol_dev.append(g)
 
-
-        #print('R: ', str(b), ' for ', cell)
-        #print('CCC: ', str(c), ' for ', cell)
-        #print('SpearmanR: ', str(s), ' for ', cell)
-        #print('RMSE: ', str(a), ' for ', cell)
-        #print('Mean percent deviation: ', str(f), ' for ', cell)
-        #print('Mean absolute deviation: ', str(g), ' for ', cell)
-
     DF = pd.concat([pd.Series(rsquared), pd.Series(spearmans), pd.Series(cccs), pd.Series(rmses), pd.Series(percent_dev), pd.Series(absol_dev)], axis = 1, ignore_index = True)
     DF.columns = ['PCC', 'SCC', 'CCC', 'RMSE', 'RD', 'MAD']
     DF.index = cellTypes
@@ -296,6 +291,7 @@ def boxplot_props(pred, output):
     p.set_xticklabels(p.get_xticklabels(), rotation=45, horizontalalignment='right')
     plt.tight_layout()
     plt.savefig(output + 'Boxplot_inferred_proportions.pdf', transparent = True, dpi = 300, format = 'pdf')
+    plt.savefig(output + 'Boxplot_inferred_proportions.svg', transparent = True, dpi = 300, format = 'svg')
     plt.clf()
 
 
@@ -318,6 +314,7 @@ def plotStackedBars(df, output):
     plt.title('Cell type proportions per sample')
     plt.tight_layout()
     plt.savefig(output + 'Cell_type_proportions_per_sample.pdf', transparent = True, dpi = 300, format = 'pdf')
+    plt.savefig(output + 'Cell_type_proportions_per_sample.svg', transparent = True, dpi = 300, format = 'svg')
     plt.clf()
 
 
@@ -352,7 +349,6 @@ def explain_heatmap_features(model, estimators, data, prop, cell_type):
 
     # Format data
     data_selected = data[genes].transpose() # subset bulk data
-    #data_selected = pd.DataFrame(index=data_selected.index.tolist(), columns=data_selected.columns.tolist(), data=stats.zscore(np.array(data_selected), axis = 1))
     prop_series = pd.Series(prop[cell_type]) # series for proportion for cell type investigated here
 
     # Remove genes with all-zero expression across samples
@@ -379,18 +375,17 @@ def explain_heatmap_features(model, estimators, data, prop, cell_type):
     prop_series_reordered = prop_series[col_order]
 
     # Add a new axis on top for the bar plot
-    # Position: [left, bottom, width, height] in figure coordinates
-    bar_height = 0.5  # relative height of bar plot
+    bar_height = 0.5
     heatmap_pos = g.ax_heatmap.get_position()
 
     bar_ax = g.fig.add_axes([
-        heatmap_pos.x0,                      # left
-        heatmap_pos.y1 + 0.02,               # bottom just above heatmap
-        heatmap_pos.width,                   # same width as heatmap
-        bar_height / g.fig.get_size_inches()[1]  # normalized height
+        heatmap_pos.x0,                      
+        heatmap_pos.y1 + 0.02,               
+        heatmap_pos.width,                   
+        bar_height / g.fig.get_size_inches()[1] 
     ])
 
-    # ---- 5. Plot bars ----
+    # Plot bars
     bar_ax.bar(
         x=np.arange(len(prop_series_reordered)),
         height=prop_series_reordered,
@@ -406,8 +401,6 @@ def explain_heatmap_features(model, estimators, data, prop, cell_type):
     bar_ax.spines["top"].set_visible(False)
     bar_ax.spines["right"].set_visible(False)
 
-    #plt.title(f"Prediction and Expression of most important features for {cell_type}", )
-
     return g
 
 def get_explain_heatmap(model, estimators, bulk, pred, output):
@@ -419,10 +412,10 @@ def get_explain_heatmap(model, estimators, bulk, pred, output):
             explain_heatmap_features(model, estimators, bulk, pred, cell_type)
 
             plt.figtext(
-                0.5,               # x-position (0 to 1, fraction of figure width)
-                0.98,              # y-position (just above the bottom)
-                f"Analysis for cell type: {cell_type}",  # the text
-                ha='center',       # horizontal alignment
+                0.5,               
+                0.98,              
+                f"Analysis for cell type: {cell_type}",  
+                ha='center',       
                 fontsize=10
             )
 

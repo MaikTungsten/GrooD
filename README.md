@@ -4,7 +4,7 @@
 ## Principle
 
 **Gr**adientB**oo**sted**D**econvolution (GrooD) employs gradient boosted trees for bulk transcriptome deconvolution. The working principle comprises three main steps:
-1. Pseudobulk-based model training
+1. Pseudobulk-based model training; heterogeneity is a key feature
 2. Model evaluation and interpretation after training
 3. Inference of bulk cell type proportions with trained model
 
@@ -199,15 +199,13 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-## Tests conducted so far
 
-- influence of amount of pseudobulks on model performance --> 1000 seems fine
-- influence of number of cells in single-cell reference on model performance --> depends on size of single-cell dataset
-- influence of number of cells to build pseudobulk on model performance --> influence not too large
-- model performance evaluated on test data, real bulk data and pseudobulk data --> as expected pseudobulk performance is usually better
-- data used for training and testing so far:
-    - single-cell data from Hao, 2021 (150k PBMCs, 7 cell types)
-    - bulk data and associated proportions from Finotello, 2019 (9 samples, 7 cell types via FACS)
-    - BIU dataset
-    - Govaere dataset
-    - Baghela dataset
+## Acknowledgements
+
+We thank 
+
+Further useful repositories:
+- the command line application of the pseudobulk simulator used to generate pseudobulks for testing: 
+- the deconvolution benchmarking pipeline used for results in ```grood_runs```: 
+- the convolution benchmarking tool for results in ```analysis/Convolution```:
+- the Nextflow pipeline used to process raw bulk RNA-seq data: 

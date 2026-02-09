@@ -1,0 +1,354 @@
+---------------------------
+Standard GrooD
+Hao no target pseudobulks in train and test - CPM normalization
+---------------------------
+Start date: 
+January 05 16:52:50
+---------------------------
+
+Loading required packages...
+-------------------
+all mode selected.
+-------------------
+Single-cell data provided. Please ensure that a column termed cell_type is included in obs of AnnData.
+If bulk data path was provided, it will be overwritten by the pseudobulk simulation.
+No cell type proportions provided. New proportions will be simulated.
+Specified sc_layer X not in scRNA-seq data object. Using default layer.
+Using default layer for pseudobulk simulation.
+Generating cell fractions using Dirichlet distribution without prior info (actually random).
+Random cell fractions are generated.
+You set sparse as True, some cell's fraction will be zero, the probability is 0.2
+Selected rare, thus some cell type fractions are very small (<3%), this celltype is randomly chosen by percentage you set before.
+Sampling cells to compose pseudo-bulk data...
+Sampling is done.
+Returning raw summed counts in pseudobulks.
+Writing pseudobulks to output.
+Bulk data provided.
+Proportions are provided and will be considered for evaluation.
+-------------------
+Selected architecture: GrooD
+-------------------
+-------------------
+Model will be trained with the following parameters: 
+max_depth : 4
+n_estimators : 500
+learning_rate : 0.01
+loss : squared_error
+min_samples_split : 50
+-------------------
+-------------------
+Starting train_test of GrooD...
+------------------------------------
+Total mean squared error:  0.00017597972372253353
+------------------------------------
+Training done. Evaluating now...
+Visualizing deconvolution results...
+Comparing results to ground-truth...
+Total mean squared error:  0.0244225058376486
+---------------------------
+Standard GrooD
+Hao no target pseudobulks in train and test - log normalization
+---------------------------
+Loading required packages...
+-------------------
+all mode selected.
+-------------------
+Single-cell data provided. Please ensure that a column termed cell_type is included in obs of AnnData.
+If bulk data path was provided, it will be overwritten by the pseudobulk simulation.
+No cell type proportions provided. New proportions will be simulated.
+Specified sc_layer X not in scRNA-seq data object. Using default layer.
+Using default layer for pseudobulk simulation.
+Generating cell fractions using Dirichlet distribution without prior info (actually random).
+Random cell fractions are generated.
+You set sparse as True, some cell's fraction will be zero, the probability is 0.2
+Selected rare, thus some cell type fractions are very small (<3%), this celltype is randomly chosen by percentage you set before.
+Sampling cells to compose pseudo-bulk data...
+Sampling is done.
+Returning raw summed counts in pseudobulks.
+Writing pseudobulks to output.
+Bulk data provided.
+Proportions are provided and will be considered for evaluation.
+-------------------
+Selected architecture: GrooD
+-------------------
+-------------------
+Model will be trained with the following parameters: 
+max_depth : 4
+n_estimators : 500
+learning_rate : 0.01
+loss : squared_error
+min_samples_split : 50
+-------------------
+-------------------
+Starting train_test of GrooD...
+------------------------------------
+Total mean squared error:  0.0001726765358004452
+------------------------------------
+Training done. Evaluating now...
+Visualizing deconvolution results...
+Comparing results to ground-truth...
+Total mean squared error:  0.030038697308836727
+---------------------------
+Standard GrooD
+Hao no target pseudobulks in train and test - rank normalization
+---------------------------
+Loading required packages...
+-------------------
+all mode selected.
+-------------------
+Single-cell data provided. Please ensure that a column termed cell_type is included in obs of AnnData.
+If bulk data path was provided, it will be overwritten by the pseudobulk simulation.
+No cell type proportions provided. New proportions will be simulated.
+Specified sc_layer X not in scRNA-seq data object. Using default layer.
+Using default layer for pseudobulk simulation.
+Generating cell fractions using Dirichlet distribution without prior info (actually random).
+Random cell fractions are generated.
+You set sparse as True, some cell's fraction will be zero, the probability is 0.2
+Selected rare, thus some cell type fractions are very small (<3%), this celltype is randomly chosen by percentage you set before.
+Sampling cells to compose pseudo-bulk data...
+Sampling is done.
+Returning raw summed counts in pseudobulks.
+Writing pseudobulks to output.
+Bulk data provided.
+Proportions are provided and will be considered for evaluation.
+-------------------
+Selected architecture: GrooD
+-------------------
+-------------------
+Model will be trained with the following parameters: 
+max_depth : 4
+n_estimators : 500
+learning_rate : 0.01
+loss : squared_error
+min_samples_split : 50
+-------------------
+-------------------
+Starting train_test of GrooD...
+------------------------------------
+Total mean squared error:  0.00022980919241850158
+------------------------------------
+Training done. Evaluating now...
+Visualizing deconvolution results...
+Comparing results to ground-truth...
+Total mean squared error:  0.024200366660758674
+---------------------------
+Standard GrooD
+Hao no target pseudobulks in train and test - CPM normalization, mRNA_intersect
+---------------------------
+Loading required packages...
+-------------------
+all mode selected.
+-------------------
+Single-cell data provided. Please ensure that a column termed cell_type is included in obs of AnnData.
+If bulk data path was provided, it will be overwritten by the pseudobulk simulation.
+No cell type proportions provided. New proportions will be simulated.
+Specified sc_layer X not in scRNA-seq data object. Using default layer.
+Using default layer for pseudobulk simulation.
+Generating cell fractions using Dirichlet distribution without prior info (actually random).
+Random cell fractions are generated.
+You set sparse as True, some cell's fraction will be zero, the probability is 0.2
+Selected rare, thus some cell type fractions are very small (<3%), this celltype is randomly chosen by percentage you set before.
+Sampling cells to compose pseudo-bulk data...
+Sampling is done.
+Returning raw summed counts in pseudobulks.
+Writing pseudobulks to output.
+Bulk data provided.
+Proportions are provided and will be considered for evaluation.
+-------------------
+Selected architecture: GrooD
+-------------------
+-------------------
+Model will be trained with the following parameters: 
+max_depth : 4
+n_estimators : 500
+learning_rate : 0.01
+loss : squared_error
+min_samples_split : 50
+-------------------
+-------------------
+Starting train_test of GrooD...
+------------------------------------
+Total mean squared error:  0.00019560763220843546
+------------------------------------
+Training done. Evaluating now...
+Visualizing deconvolution results...
+Comparing results to ground-truth...
+Total mean squared error:  0.02469084850915156
+---------------------------
+Standard GrooD
+Hao no target pseudobulks in train and test - CPM normalization, non_zero_intersect
+---------------------------
+Loading required packages...
+-------------------
+all mode selected.
+-------------------
+Single-cell data provided. Please ensure that a column termed cell_type is included in obs of AnnData.
+If bulk data path was provided, it will be overwritten by the pseudobulk simulation.
+No cell type proportions provided. New proportions will be simulated.
+Specified sc_layer X not in scRNA-seq data object. Using default layer.
+Using default layer for pseudobulk simulation.
+Generating cell fractions using Dirichlet distribution without prior info (actually random).
+Random cell fractions are generated.
+You set sparse as True, some cell's fraction will be zero, the probability is 0.2
+Selected rare, thus some cell type fractions are very small (<3%), this celltype is randomly chosen by percentage you set before.
+Sampling cells to compose pseudo-bulk data...
+Sampling is done.
+Returning raw summed counts in pseudobulks.
+Writing pseudobulks to output.
+Bulk data provided.
+Proportions are provided and will be considered for evaluation.
+-------------------
+Selected architecture: GrooD
+-------------------
+-------------------
+Model will be trained with the following parameters: 
+max_depth : 4
+n_estimators : 500
+learning_rate : 0.01
+loss : squared_error
+min_samples_split : 50
+-------------------
+-------------------
+Starting train_test of GrooD...
+------------------------------------
+Total mean squared error:  0.00016879714044204546
+------------------------------------
+Training done. Evaluating now...
+Visualizing deconvolution results...
+Comparing results to ground-truth...
+Total mean squared error:  0.0239301411438787
+---------------------------
+Standard GrooD
+Hao no target pseudobulks in train and test - CPM normalization, mRNA
+---------------------------
+Loading required packages...
+-------------------
+all mode selected.
+-------------------
+Single-cell data provided. Please ensure that a column termed cell_type is included in obs of AnnData.
+If bulk data path was provided, it will be overwritten by the pseudobulk simulation.
+No cell type proportions provided. New proportions will be simulated.
+Specified sc_layer X not in scRNA-seq data object. Using default layer.
+Using default layer for pseudobulk simulation.
+Generating cell fractions using Dirichlet distribution without prior info (actually random).
+Random cell fractions are generated.
+You set sparse as True, some cell's fraction will be zero, the probability is 0.2
+Selected rare, thus some cell type fractions are very small (<3%), this celltype is randomly chosen by percentage you set before.
+Sampling cells to compose pseudo-bulk data...
+Sampling is done.
+Returning raw summed counts in pseudobulks.
+Writing pseudobulks to output.
+Bulk data provided.
+Proportions are provided and will be considered for evaluation.
+-------------------
+Selected architecture: GrooD
+-------------------
+-------------------
+Model will be trained with the following parameters: 
+max_depth : 4
+n_estimators : 500
+learning_rate : 0.01
+loss : squared_error
+min_samples_split : 50
+-------------------
+-------------------
+Starting train_test of GrooD...
+------------------------------------
+Total mean squared error:  0.0002481201722037343
+------------------------------------
+Training done. Evaluating now...
+Visualizing deconvolution results...
+Comparing results to ground-truth...
+Total mean squared error:  0.024184904315702725
+---------------------------
+Standard GrooD
+Hao no target pseudobulks in train and test - CPM normalization, all
+---------------------------
+Loading required packages...
+-------------------
+all mode selected.
+-------------------
+Single-cell data provided. Please ensure that a column termed cell_type is included in obs of AnnData.
+If bulk data path was provided, it will be overwritten by the pseudobulk simulation.
+No cell type proportions provided. New proportions will be simulated.
+Specified sc_layer X not in scRNA-seq data object. Using default layer.
+Using default layer for pseudobulk simulation.
+Generating cell fractions using Dirichlet distribution without prior info (actually random).
+Random cell fractions are generated.
+You set sparse as True, some cell's fraction will be zero, the probability is 0.2
+Selected rare, thus some cell type fractions are very small (<3%), this celltype is randomly chosen by percentage you set before.
+Sampling cells to compose pseudo-bulk data...
+Sampling is done.
+Returning raw summed counts in pseudobulks.
+Writing pseudobulks to output.
+Bulk data provided.
+Proportions are provided and will be considered for evaluation.
+-------------------
+Selected architecture: GrooD
+-------------------
+-------------------
+Model will be trained with the following parameters: 
+max_depth : 4
+n_estimators : 500
+learning_rate : 0.01
+loss : squared_error
+min_samples_split : 50
+-------------------
+-------------------
+Starting train_test of GrooD...
+------------------------------------
+Total mean squared error:  0.00021283089138258147
+------------------------------------
+Training done. Evaluating now...
+Visualizing deconvolution results...
+Comparing results to ground-truth...
+Total mean squared error:  0.025108086931304095
+---------------------------
+Standard GrooD
+Hao no target pseudobulks in train and test - CPM normalization, non_zero
+---------------------------
+Loading required packages...
+-------------------
+all mode selected.
+-------------------
+Single-cell data provided. Please ensure that a column termed cell_type is included in obs of AnnData.
+If bulk data path was provided, it will be overwritten by the pseudobulk simulation.
+No cell type proportions provided. New proportions will be simulated.
+Specified sc_layer X not in scRNA-seq data object. Using default layer.
+Using default layer for pseudobulk simulation.
+Generating cell fractions using Dirichlet distribution without prior info (actually random).
+Random cell fractions are generated.
+You set sparse as True, some cell's fraction will be zero, the probability is 0.2
+Selected rare, thus some cell type fractions are very small (<3%), this celltype is randomly chosen by percentage you set before.
+Sampling cells to compose pseudo-bulk data...
+Sampling is done.
+Returning raw summed counts in pseudobulks.
+Writing pseudobulks to output.
+Bulk data provided.
+Proportions are provided and will be considered for evaluation.
+-------------------
+Selected architecture: GrooD
+-------------------
+-------------------
+Model will be trained with the following parameters: 
+max_depth : 4
+n_estimators : 500
+learning_rate : 0.01
+loss : squared_error
+min_samples_split : 50
+-------------------
+-------------------
+Starting train_test of GrooD...
+------------------------------------
+Total mean squared error:  0.00022958420205008965
+------------------------------------
+Training done. Evaluating now...
+Visualizing deconvolution results...
+Comparing results to ground-truth...
+Total mean squared error:  0.02448339234192029
+---------------------------
+GrooD tests done
+January 05 23:13:56
+---------------------------
+
+
