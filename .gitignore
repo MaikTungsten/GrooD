@@ -1,6 +1,7 @@
 data/
 grood_runs/benchmark/*/preprocessed
 grood_runs/benchmark/new_Hao_pb_tests/*/preprocessed
+grood_runs/benchmark/new_Hao_pb_tests/*/*/preprocessed
 grood_runs/benchmark/pseudobulk_data
 grood_runs/*/*/pseudobulk
 grood_runs/F_*
