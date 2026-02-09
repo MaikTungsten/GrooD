@@ -67,52 +67,52 @@ The pseudobulk simulation strategy is adapted from **TAPE** (https://github.com/
 
 ### Data
 
---bulk              input bulk data path: either pseudobulk or bulk data for inference or all mode. Bulk can be in csv, tsv or h5ad format. In h5ad format, default
+``--bulk``              input bulk data path: either pseudobulk or bulk data for inference or all mode. Bulk can be in csv, tsv or h5ad format. In h5ad format, default
                     layer X needs to contain the desired data.
 
---props             cell type proportions for evaluation of deconvolution of pseudobulk/bulk data in inference or all mode. OPTIONAL. Supply in csv or tsv format.
+``--props``             cell type proportions for evaluation of deconvolution of pseudobulk/bulk data in inference or all mode. OPTIONAL. Supply in csv or tsv format.
 
---sc                input scRNA-seq data path, data in h5ad format for pseudobulk simulation
+``--sc``                input scRNA-seq data path, data in h5ad format for pseudobulk simulation
 
 ### Pseudobulk simulation
 
---no_pseudobulks    Number of pseudobulks to simulate.
+``--no_pseudobulks``    Number of pseudobulks to simulate.
 
---no_cells          Number of cells to sample per pseudobulk.
+``--no_cells ``         Number of cells to sample per pseudobulk.
 
---target            Specifiy condition or individual as additional layer for specific pseudobulk simulation. Optional.
+``--target ``           Specifiy condition or individual as additional layer for specific pseudobulk simulation. Optional.
 
---target_name       Specify a single condition or individual, if simulation should be conducted for the specific condition or individual only. Works only, if target is specified, and if contained in specified target column in observations.
+``--target_name``       Specify a single condition or individual, if simulation should be conducted for the specific condition or individual only. Works only, if target is specified, and if contained in specified target column in observations.
 
---pseudobulks       Input path for pseudobulks, which can be in csv, tsv or h5ad format. OPTIONAL, if sc not set. Overrides sc, if pseudobulk_props provided.
+``--pseudobulks``       Input path for pseudobulks, which can be in csv, tsv or h5ad format. OPTIONAL, if sc not set. Overrides sc, if pseudobulk_props provided.
 
---pseudobulk_props  Input path for associated pseudobulk proportions. Can also be used as input for simulator, if pseudobulks not provided.
+``--pseudobulk_props``  Input path for associated pseudobulk proportions. Can also be used as input for simulator, if pseudobulks not provided.
 
 ### Parameters
 
-  --norm                Way how pseudobulks/bulks will be normalized prior to inference: none,CPM,rank,log. None only advised, if prenormalized data is provided.
+  ``--norm``                Way how pseudobulks/bulks will be normalized prior to inference: none,CPM,rank,log. None only advised, if prenormalized data is provided.
 
-  --feature_curation    "all", "mRNA" and "non_zero" only work do not work in inference mode; "intersect" options only work in mode "all": non_zero,mRNA_intersect,non_zero_intersect,intersect,all,mRNA
+  ``--feature_curation``    "all", "mRNA" and "non_zero" do not work in inference mode; "intersect" options only work in mode "all": non_zero,mRNA_intersect,non_zero_intersect,intersect,all,mRNA
 
-  --mode                train_test mode for model training and evaluation; inference mode for deconvolution of bulk transcriptomics data from trained model; all for both modi at once.
+  ``--mode``                train_test mode for model training and evaluation; inference mode for deconvolution of bulk transcriptomics data from trained model; all for both modi at once.
 
-  --grood_mode          GrooD model implementation to use (only used in train_test mode): multigrood, xgrood, grood
+  ``--grood_mode``          GrooD model implementation to use (only used in train_test mode): multigrood, xgrood, grood
 
-  --depth DEPTH         maximal depth of the decision trees that will be trained. Only used in train-test mode.
+  ``--depth``         maximal depth of the decision trees that will be trained. Only used in train-test mode.
 
-  --n_estimators        number of trees to train. Only used in train-test mode.
+  ``--n_estimators``        number of trees to train. Only used in train-test mode.
 
-  --learning_rate       supply learning_rate. Only used in train-test mode for grood_mode grood and xgrood.
+  ``--learning_rate``       supply learning_rate. Only used in train-test mode for grood_mode grood and xgrood.
 
-  --loss_function       loss_function for xgrood and grood (absolute_error, squared_error). Only used in train-test mode.
+  ``--loss_function``       loss_function for xgrood and grood (absolute_error, squared_error). Only used in train-test mode.
 
-  --min_samples_split   minimum number of samples to justify a split. Only used in train-test mode for grood and xgrood.
+  ``--min_samples_split``   minimum number of samples to justify a split. Only used in train-test mode for grood and xgrood.
 
-  --model_path          supply a pre-trained model by specifying its path. Only used in inference mode. Model should be a .pkl file. Only accepts custom GrooD models in pkl format.
+  ``--model_path``          supply a pre-trained model by specifying its path. Only used in inference mode. Model should be a .pkl file. Only accepts custom GrooD models in pkl format.
 
-  --threads THREADS     supply number of threads to use model with.
+  ``--threads``      supply number of threads to use model with.
 
-  --output OUTPUT       Specify a path to the output folder and a prefix added to all output files. Directory will be created, if it does not exist.
+  ``--output``       Specify a path to the output folder and a prefix added to all output files. Directory will be created, if it does not exist.
 
 
 ## Usage
@@ -202,7 +202,9 @@ pip install -r requirements.txt
 
 ## Acknowledgements
 
-We thank 
+We thank valuable contributions from previous studies:
+- pseudobulk simulator from Chen et al., 2022 ()
+- 
 
 Further useful repositories:
 - the command line application of the pseudobulk simulator used to generate pseudobulks for testing: 
