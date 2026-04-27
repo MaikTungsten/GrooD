@@ -27,12 +27,16 @@ In the current tool, users can choose from three GrooD implementations, each wit
 The standard implementation of **GrooD** uses the ```scikit-learn``` implementation of ```GradientBoostingRegressor``` wrapped in a ```MultiOutputRegressor```, where each Regressor predicts the proportions of a single cell type. The model is comparably slow but convinces by rather accurate predictions. Optimal parameters are given by default.
 This implementation can be used setting ```--grood_mode grood```.
 
-### XGrooD (Experimental)
+### XGrooD
+
+**!!EXPERIMENTAL!!**
 
 **XGrooD** is designed and functionally very similar to GrooD but makes use of the ```XGBoost``` implementation of ```XGBRegressor``` wrapped in a ```MultiOutputRegressor```, where each Regressor predicts the proportions of a single cell type. Due to hist boosting this model is comparably fast.
 This implementation can be used setting ```--grood_mode xgrood```.
 
-### MultiGrooD (Experimental)
+### MultiGrooD
+
+**!!EXPERIMENTAL!!**
 
 Different to GrooD and XGrooD, **MultiGrooD** employs a custom gradient boosting model from ```XGBoost``` that uses a multi target prediction strategy. Basically, each leave of a single tree predicts the proportion of a single cell type. Thereby, the booster learns the predictions of cell type proportions in relation to each other and is further constraint to a maximum prediction of 1 across cell types per sample.
 This implementation can be used setting ```--grood_mode multigrood```.
