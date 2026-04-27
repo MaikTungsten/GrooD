@@ -1,19 +1,16 @@
 # Load packages
 
-print('Loading required packages...')
 import warnings
 warnings.filterwarnings('ignore')
-import multiprocessing
-multiprocessing.set_start_method('forkserver')
 import argparse
 import numpy as np
 import pandas as pd
 import scanpy as sc
 
-from bin.tools import create_pred_dir, create_inference_dir
-from bin.deconvolution import train_eval_GrooD, train_eval_XGrooD, train_eval_MultiGrooD, eval_inference, inference_grood_models, inference_loaded_grood
-from bin.preprocessing import load_train_test_data, load_inference_data, load_all_data
-from bin.evaluation import visualize_predict, get_explain_heatmap
+from tools import create_pred_dir, create_inference_dir
+from deconvolution import train_eval_GrooD, train_eval_XGrooD, train_eval_MultiGrooD, eval_inference, inference_grood_models, inference_loaded_grood
+from preprocessing import load_train_test_data, load_inference_data, load_all_data
+from evaluation import visualize_predict, get_explain_heatmap
 
 # Set up argparser
 
@@ -103,6 +100,19 @@ def parse_args():
 
     return parser.parse_args()
 
+def print_start_message():
+    print(r"""
+==================================================
+       ____                  ____  
+      / ___| _ __ ___   ___ |  _ \ 
+     | |  _ | '__/ _ \ / _ \| | | |
+     | |_| || | | (_) | (_) | |_| |
+      \____||_|  \___/ \___/|____/ 
+
+     Gradient Boosted Deconvolution
+==================================================
+""")
+
 def main():
 
     """
@@ -113,6 +123,14 @@ def main():
     Always generates visualizations of predictions and optional visualizations of comparisons to ground-truth, if available
     """
 
+    import multiprocessing
+    
+    try:
+        multiprocessing.set_start_method('forkserver')
+    except RuntimeError:
+            pass
+
+    print_start_message()
     args = parse_args()
 
     # Mode-dependent training or inference

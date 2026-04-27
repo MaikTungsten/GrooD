@@ -13,8 +13,8 @@ from sklearn.multioutput import MultiOutputRegressor
 from typing import Dict, List, Tuple
 import xgboost as xgb
 import joblib
-from bin.evaluation import compare_data, plot_feature_importance, getCorr, annotated_heatmap, visualize_predict
-from bin.tools import main_gene_selection, bulk_norm, create_train_dir
+from evaluation import compare_data, plot_feature_importance, getCorr, annotated_heatmap, visualize_predict
+from tools import main_gene_selection, bulk_norm, create_train_dir
 
 
 # Train and evaluated GrooD

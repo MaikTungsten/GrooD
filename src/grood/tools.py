@@ -574,11 +574,9 @@ def pseudobulk_norm(pseudobulks, norm, filter_genes):
     Pseudobulk subsetting (filtering) and normalization as used in simulator
     """
 
-    # mRNA_file_path 
-    script_dir = pathlib.Path(__file__).resolve().parent
+    from importlib.resources import files
 
-    # path to the text file
-    file_path = script_dir / "mRNA_annotation.tsv"
+    file_path = files("grood.data").joinpath("mRNA_annotation.tsv")
     
     # CPM normalization option
     if norm == 'CPM':
