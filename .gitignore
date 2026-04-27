@@ -1,6 +1,7 @@
 /data/
 /dist/
 /src/grood/__pycache__/
+/grood.egg-info/
 grood_runs/benchmark/*/preprocessed/
 grood_runs/benchmark/new_Hao_pb_tests/*/preprocessed/
 grood_runs/benchmark/new_Hao_pb_tests/Benchmark_all/
