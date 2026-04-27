@@ -27,12 +27,12 @@ In the current tool, users can choose from three GrooD implementations, each wit
 The standard implementation of **GrooD** uses the ```scikit-learn``` implementation of ```GradientBoostingRegressor``` wrapped in a ```MultiOutputRegressor```, where each Regressor predicts the proportions of a single cell type. The model is comparably slow but convinces by rather accurate predictions. Optimal parameters are given by default.
 This implementation can be used setting ```--grood_mode grood```.
 
-### XGrooD
+### XGrooD (Experimental)
 
 **XGrooD** is designed and functionally very similar to GrooD but makes use of the ```XGBoost``` implementation of ```XGBRegressor``` wrapped in a ```MultiOutputRegressor```, where each Regressor predicts the proportions of a single cell type. Due to hist boosting this model is comparably fast.
 This implementation can be used setting ```--grood_mode xgrood```.
 
-### MultiGrooD
+### MultiGrooD (Experimental)
 
 Different to GrooD and XGrooD, **MultiGrooD** employs a custom gradient boosting model from ```XGBoost``` that uses a multi target prediction strategy. Basically, each leave of a single tree predicts the proportion of a single cell type. Thereby, the booster learns the predictions of cell type proportions in relation to each other and is further constraint to a maximum prediction of 1 across cell types per sample.
 This implementation can be used setting ```--grood_mode multigrood```.
@@ -78,6 +78,8 @@ source GrooD/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
+
+**Note**: A pip installable version of GrooD will be available soon.
 
 ## Input
 
@@ -133,7 +135,7 @@ pip install -r requirements.txt
 
 ## Usage
 
-All parameters in a nutshell:
+All parameters in a nutshell (make sure you access GrooD via the correct path, e.g. src/grood.py):
 ```bash
 usage: grood.py [-h] [--bulk BULK] [--props PROPS] [--sc SC] [--no_pseudobulks NO_PSEUDOBULKS] [--no_cells NO_CELLS] [--target {condition,individual}] [--target_name TARGET_NAME]
                 [--pseudobulks PSEUDOBULKS] [--pseudobulk_props PSEUDOBULK_PROPS] [--norm {none,CPM,rank,log}]
@@ -194,6 +196,22 @@ python grood.py --sc /path/to/scData --bulk /path/to/bulkData --props /path/to/p
     --depth 4 --n_estimators 500 --learning_rate 0.01 --min_samples_split 50 --loss_function absolute_error \
     --feature_curation non_zero_intersect --norm rank \
     --threads 16
+```
+
+### Test run
+
+To check whether GrooD is correctly set up for you, please run GrooD on the ``test_data``:
+
+```bash
+python src/grood.py --sc /test_data/Hao_reference_test.h5ad \
+    --bulk /test_data/Finotello_TPM_data.csv \
+    --props /test_data/Finotello_FACS_proportions_7_cell_types.csv \
+    --grood_mode grood --mode all --output test_output/ \
+    --no_pseudobulks 1000 --no_cells 250 --target no_target \
+    --depth 4 --n_estimators 500 --learning_rate 0.01 \
+    --min_samples_split 50 --loss_function absolute_error \
+    --feature_curation non_zero_intersect --norm CPM \
+    --threads 8
 ```
 
 ## Acknowledgements
