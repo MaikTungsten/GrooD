@@ -12,7 +12,7 @@ from sklearn.utils.fixes import parse_version
 import seaborn as sns
 import math
 import scipy.stats as stats
-import xgboost as xgb
+
 
 
 # Compare predictions and ground truth on a given dataset

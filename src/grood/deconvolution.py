@@ -9,7 +9,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.utils.fixes import parse_version
 from sklearn.multioutput import MultiOutputRegressor
 from typing import Dict, List, Tuple
-import xgboost as xgb
 import joblib
 from .evaluation import compare_data, plot_feature_importance, getCorr, annotated_heatmap, visualize_predict
 from .tools import main_gene_selection, bulk_norm, create_train_dir
@@ -117,6 +116,7 @@ def train_eval_XGrooD(pb, props, params, output, threads, norm):
 
     Returns annotated model
     """
+    import xgboost as xgb
 
     # Create training directory
     train_path, model_path = create_train_dir(output)
@@ -204,6 +204,8 @@ def train_eval_MultiGrooD(pb, props, params, output, threads, norm) -> None:
 
     Returns annotated model (with norm type and grood_mode in metadata)
     """
+
+    import xgboost as xgb
 
     # Create training directory
     train_path, model_path = create_train_dir(output)
