@@ -1,4 +1,5 @@
 /data/
+src/grood/__pycache__/
 grood_runs/benchmark/*/preprocessed/
 grood_runs/benchmark/new_Hao_pb_tests/*/preprocessed/
 grood_runs/benchmark/new_Hao_pb_tests/Benchmark_all/
