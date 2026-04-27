@@ -13,3 +13,5 @@ grood_runs/C_*/
 grood_runs/B_*/
 grood_runs/A_*/
 grood_runs/Exp1_*/
+uv.lock
+/.venv/
