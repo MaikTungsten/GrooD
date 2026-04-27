@@ -1,5 +1,3 @@
-# Load packages
-
 import warnings
 warnings.filterwarnings('ignore')
 import argparse
@@ -7,10 +5,10 @@ import numpy as np
 import pandas as pd
 import scanpy as sc
 
-from tools import create_pred_dir, create_inference_dir
-from deconvolution import train_eval_GrooD, train_eval_XGrooD, train_eval_MultiGrooD, eval_inference, inference_grood_models, inference_loaded_grood
-from preprocessing import load_train_test_data, load_inference_data, load_all_data
-from evaluation import visualize_predict, get_explain_heatmap
+from .tools import create_pred_dir, create_inference_dir
+from .deconvolution import train_eval_GrooD, train_eval_XGrooD, train_eval_MultiGrooD, eval_inference, inference_grood_models, inference_loaded_grood
+from .preprocessing import load_train_test_data, load_inference_data, load_all_data
+from .evaluation import visualize_predict, get_explain_heatmap
 
 # Set up argparser
 

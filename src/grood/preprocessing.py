@@ -1,5 +1,3 @@
-# Import packages
-
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
@@ -11,8 +9,8 @@ from sklearn.inspection import permutation_importance
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 from sklearn.utils.fixes import parse_version
-from simulation import simulator
-from tools import create_pseudobulk_dir, main_gene_selection, bulk_norm, remove_zero_variance
+from .simulation import simulator
+from .tools import create_pseudobulk_dir, main_gene_selection, bulk_norm, remove_zero_variance
 from pathlib import Path
 
 

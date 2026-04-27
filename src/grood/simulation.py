@@ -7,7 +7,7 @@ from tqdm import tqdm
 import random
 from numpy.random import choice
 import warnings
-from tools import generate_simulated_data, generate_simulated_data_per_target, pseudobulk_norm
+from .tools import generate_simulated_data, generate_simulated_data_per_target, pseudobulk_norm
 
 # Define simulator function
 
