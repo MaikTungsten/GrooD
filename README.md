@@ -137,7 +137,7 @@ pip install -r requirements.txt
 
 All parameters in a nutshell (make sure you access GrooD via the correct path, e.g. src/grood.py):
 ```bash
-usage: grood.py [-h] [--bulk BULK] [--props PROPS] [--sc SC] [--no_pseudobulks NO_PSEUDOBULKS] [--no_cells NO_CELLS] [--target {condition,individual}] [--target_name TARGET_NAME]
+usage: grood [-h] [--bulk BULK] [--props PROPS] [--sc SC] [--no_pseudobulks NO_PSEUDOBULKS] [--no_cells NO_CELLS] [--target {condition,individual}] [--target_name TARGET_NAME]
                 [--pseudobulks PSEUDOBULKS] [--pseudobulk_props PSEUDOBULK_PROPS] [--norm {none,CPM,rank,log}]
                 [--feature_curation {non_zero,mRNA_intersect,non_zero_intersect,intersect,all,mRNA}] [--mode {train_test,inference,all}] [--grood_mode {multigrood,xgrood,grood}]
                 [--depth DEPTH] [--n_estimators N_ESTIMATORS] [--learning_rate LEARNING_RATE] [--loss_function {absolute_error,huber,squared_error}] [--min_samples_split MIN_SAMPLES_SPLIT]
@@ -149,7 +149,7 @@ usage: grood.py [-h] [--bulk BULK] [--props PROPS] [--sc SC] [--no_pseudobulks N
 Example training by providing single-cell data as input:
 ```bash
 # Trains "classical" GrooD with pseudobulk simulation
-python grood.py --sc /path/to/scData \
+grood --sc /path/to/scData \
     --grood_mode grood --mode train_test --output /path/to/output/train/folder \
     --no_pseudobulks 1000 --no_cells 1000 \
     --depth 4 --n_estimators 500 --learning_rate 0.01 --min_samples_split 50 --loss_function squared_error \
@@ -160,7 +160,7 @@ python grood.py --sc /path/to/scData \
 Example training by providing pseudobulks and proportions as input:
 ```bash
 # Trains XGrooD with pseudobulk and proportions pre-simulated
-python grood.py --pseudobulks /path/to/pseudobulks --pseudobulk_props /path/to/pseudobulk_props \
+grood --pseudobulks /path/to/pseudobulks --pseudobulk_props /path/to/pseudobulk_props \
     --grood_mode xgrood --mode train_test --output /path/to/output/train/folder \
     --depth 4 --n_estimators 500 --learning_rate 0.01 --min_samples_split 50 --loss_function absolute_error \
     --feature_curation mRNA --norm CPM \
@@ -169,8 +169,7 @@ python grood.py --pseudobulks /path/to/pseudobulks --pseudobulk_props /path/to/p
 
 Example training by providing single-cell data as input for condition-specific pseudobulk simulation:
 ```bash
-# Trains MultiGrooD with condition-specific pseudobulk simulation
-python grood.py --sc /path/to/scData \
+grood --sc /path/to/scData \
     --grood_mode multigrood --mode train_test --output /path/to/output/train/folder \
     --no_pseudobulks 1000 --no_cells 1000 --target condition \
     --depth 5 --n_estimators 128 --min_samples_split 50 \
@@ -181,7 +180,7 @@ python grood.py --sc /path/to/scData \
 Example inference providing bulk, proportions and model_path:
 ```bash
 # Inference on bulk data with trained model
-python grood.py --bulk /path/to/bulkData --props /path/to/props \
+grood --bulk /path/to/bulkData --props /path/to/props \
     --mode inference --output /path/to/output/train/folder \
     --model_path /path/to/trainedModel \
     --threads 8
@@ -190,7 +189,7 @@ python grood.py --bulk /path/to/bulkData --props /path/to/props \
 Example training & inference by providing single-cell data as input for condition-specific pseudobulk simulation:
 ```bash
 # Trains XGrooD with condition-specific pseudobulk simulation and uses trained model to deconvolve bulk RNA-seq data that is evaluated with proportions
-python grood.py --sc /path/to/scData --bulk /path/to/bulkData --props /path/to/props \
+grood --sc /path/to/scData --bulk /path/to/bulkData --props /path/to/props \
     --grood_mode xgrood --mode all --output /path/to/output/folder \
     --no_pseudobulks 1000 --no_cells 1000 --target condition \
     --depth 4 --n_estimators 500 --learning_rate 0.01 --min_samples_split 50 --loss_function absolute_error \
@@ -203,7 +202,7 @@ python grood.py --sc /path/to/scData --bulk /path/to/bulkData --props /path/to/p
 To check whether GrooD is correctly set up for you, please run GrooD on the ``test_data``:
 
 ```bash
-python src/grood.py --sc /test_data/Hao_reference_test.h5ad \
+grood --sc /test_data/Hao_reference_test.h5ad \
     --bulk /test_data/Finotello_TPM_data.csv \
     --props /test_data/Finotello_FACS_proportions_7_cell_types.csv \
     --grood_mode grood --mode all --output test_output/ \
