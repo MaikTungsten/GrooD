@@ -73,7 +73,7 @@ def parse_args():
 
     ###### Set 3: Data normalization and feature curation
     parser.add_argument('--norm', type=str, default='CPM', choices={'CPM', 'log', 'rank', 'none'}, help='Way how pseudobulks/bulks will be normalized prior to inference.')
-    parser.add_argument('--feature_curation', type=str, default='grood', choices={'all', 'mRNA', 'non_zero', 'intersect', 'mRNA_intersect', 'non_zero_intersect'}, help='"all", "mRNA" and "non_zero" only work do not work in inference mode; "intersect" options only work in mode "all".')    
+    parser.add_argument('--feature_curation', type=str, default='all', choices={'all', 'mRNA', 'non_zero', 'intersect', 'mRNA_intersect', 'non_zero_intersect'}, help='"all", "mRNA" and "non_zero" only work do not work in inference mode; "intersect" options only work in mode "all".')    
 
 
     #### Usage mode: train-test, inference or all
