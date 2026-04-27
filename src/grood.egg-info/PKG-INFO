@@ -1,3 +1,35 @@
+Metadata-Version: 2.4
+Name: grood
+Version: 0.1.0
+Summary: GrooD - a pseudobulk-trained gradient boosting model for bulk transcriptome deconvolution
+Author-email: Maik Wolfram-Schauerte <maik.wolfram-schauerte@uni-tuebingen.de>
+License: GPL-3.0-or-later
+Project-URL: Homepage, https://github.com/MaikTungsten/GrooD
+Project-URL: Repository, https://github.com/MaikTungsten/GrooD
+Project-URL: Issues, https://github.com/MaikTungsten/GrooD/issues
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy>=1.26
+Requires-Dist: pandas>=2.2
+Requires-Dist: joblib>=1.4
+Requires-Dist: anndata>=0.10
+Requires-Dist: matplotlib>=3.9
+Requires-Dist: scikit-learn>=1.5
+Requires-Dist: scipy>=1.13
+Requires-Dist: seaborn>=0.13
+Requires-Dist: tqdm>=4.67
+Requires-Dist: shap>=0.48
+Requires-Dist: scanpy>=1.10
+Requires-Dist: statannotations>=0.7
+Requires-Dist: xgboost>=3.0
+Provides-Extra: dev
+Requires-Dist: pytest>=8.0; extra == "dev"
+Requires-Dist: ruff; extra == "dev"
+Requires-Dist: build; extra == "dev"
+Requires-Dist: twine; extra == "dev"
+Dynamic: license-file
+
 # GrooD - GradientBoostedDeconvolution
 
 ![GrooD deconvolution schematic including pseudobulk simulation, model training and cell type proportion inference on bulk data](assets/GrooD_scheme.png)
@@ -67,15 +99,9 @@ The pseudobulk simulation strategy is adapted from **TAPE** (https://github.com/
 
 ## Installation
 
-We recommend installation of GrooD via pip:
+Install with files from the ```env```directory. We provide a starting point for mamba/conda as well as pip environments.
 
-```bash
-pip install grood
-```
-
-The GitHub Repo also provides code to clone and run the repo directly (``grood_bin``). To run the code (via ``python grood.py``), install with files from the ```env```directory. We provide a starting point for mamba/conda as well as pip environments.
-
-Conda/mamba environment
+Mamba environment (conda analog)
 ```bash
 mamba create -f GrooD.yml
 mamba activate GrooD
@@ -88,6 +114,8 @@ source GrooD/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
+
+**Note**: A pip installable version of GrooD will be available soon.
 
 ## Input
 
