@@ -1,4 +1,4 @@
-,NK cells,B cells,Tregs,DC,Monocytes,CD8 T cells,CD4 T cells
+,NK cells,B cells,Tregs,mDC,Monocytes,T cells CD8,T cells CD4 conv
 pbmc_1,0.0675,0.0581,0.0175,0.016,0.2001,0.1564,0.3796
 pbmc_10,0.0718,0.064,0.0084,0.0227,0.3586,0.1839,0.1786
 pbmc_12,0.1409,0.0516,0.005,0.0426,0.2003,0.2984,0.1533

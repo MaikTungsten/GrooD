@@ -211,9 +211,9 @@ grood --sc /path/to/scData --bulk /path/to/bulkData --props /path/to/props \
 To check whether GrooD is correctly set up for you, please run GrooD on the ``test_data``:
 
 ```bash
-grood --sc /test_data/Hao_reference_test.h5ad \
-    --bulk /test_data/Finotello_TPM_data.csv \
-    --props /test_data/Finotello_FACS_proportions_7_cell_types.csv \
+grood --sc test_data/Hao_reference_test.h5ad \
+    --bulk test_data/Finotello_TPM_data.csv \
+    --props test_data/Finotello_FACS_proportions_7_cell_types.csv \
     --grood_mode grood --mode all --output test_output/ \
     --no_pseudobulks 1000 --no_cells 250 \
     --depth 4 --n_estimators 500 --learning_rate 0.01 \
