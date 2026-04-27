@@ -43,8 +43,8 @@ def load_train_test_data(args):
                                     target_name=args.target_name,
                                     threads=args.threads,
                                     norm=args.norm,
-                                    filter_genes=args.feature_curation,
-                                    mode=args.sim_mode)
+                                    filter_genes=args.feature_curation
+                                    )
         elif args.pseudobulk_props is not None:
             print('Using provided cell type proportions for simulation.')
             pb, pb_props = simulator(samplenum=args.no_pseudobulks,
@@ -56,8 +56,8 @@ def load_train_test_data(args):
                                     target_name=args.target_name,
                                     threads=args.threads,
                                     norm=args.norm,
-                                    filter_genes=args.feature_curation,
-                                    mode=args.sim_mode)
+                                    filter_genes=args.feature_curation
+                                    )
             
 
     # CASE 2: pseudobulks and corresponding proportions provided
@@ -168,8 +168,8 @@ def load_all_data(args):
                                     target_name=args.target_name,
                                     threads=args.threads,
                                     norm="none",
-                                    filter_genes="all",
-                                    mode=args.sim_mode)
+                                    filter_genes="all"
+                                    )
         elif args.pseudobulk_props is not None:
             print('Using provided cell type proportions for simulation.')
             pb, pb_props = simulator(samplenum=args.no_pseudobulks,
@@ -181,8 +181,8 @@ def load_all_data(args):
                                     target_name=args.target_name,
                                     threads=args.threads,
                                     norm="none",
-                                    filter_genes="all",
-                                    mode=args.sim_mode)
+                                    filter_genes="all"
+                                    )
             
 
     # Step 2: pseudobulks and corresponding proportions provided

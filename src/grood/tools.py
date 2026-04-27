@@ -714,10 +714,6 @@ def create_train_dir(path):
     """
     Create training and model directories 
     """
-
-    char = "/"
-    while path[-1] != char:
-        path = path[:-1]
         
     pathlib.Path(path).mkdir(parents=True, exist_ok=True)
     pathlib.Path(path + 'train/model').mkdir(parents=True, exist_ok=True)
@@ -725,7 +721,7 @@ def create_train_dir(path):
     train_path = path + 'train/'
     model_path = path + 'train/model/'
 
-    return train_path, model_path
+    return str(train_path) + "/", str(model_path) + "/"
 
 
 def create_pseudobulk_dir(path):
@@ -734,16 +730,12 @@ def create_pseudobulk_dir(path):
     Create pseudobulk directory, for storing simulated pseudobulks
     """
 
-    char = "/"
-    while path[-1] != char:
-        path = path[:-1]
-        
-    pathlib.Path(path).mkdir(parents=True, exist_ok=True)
-    pathlib.Path(path + 'pseudobulk').mkdir(parents=True, exist_ok=True)
+    base_path = pathlib.Path(path)
+    out_path = base_path / "pseudobulk"
 
-    pseudobulk_path = path + 'pseudobulk/'
+    out_path.mkdir(parents=True, exist_ok=True)
 
-    return pseudobulk_path
+    return str(out_path) + "/"
 
 
 def create_pred_dir(path):
@@ -752,15 +744,13 @@ def create_pred_dir(path):
     Create directory for storing inference/prediction results
     """
 
-    char = "/"
-    while path[-1] != char:
-        path = path[:-1]
-        
-    pathlib.Path(path + 'Prediction').mkdir(parents=True, exist_ok=True)
+    base_path = pathlib.Path(path)
+    out_path = base_path / "Prediction"
 
-    outpath = path + 'Prediction/'
+    out_path.mkdir(parents=True, exist_ok=True)
 
-    return outpath
+    return str(out_path) + "/"
+
 
 def create_inference_dir(path):
 
@@ -768,15 +758,12 @@ def create_inference_dir(path):
     Create directory for storing inference/prediction results
     """
 
-    char = "/"
-    while path[-1] != char:
-        path = path[:-1]
-        
-    pathlib.Path(path + 'inference').mkdir(parents=True, exist_ok=True)
+    base_path = pathlib.Path(path)
+    inference_path = base_path / "inference"
 
-    outpath = path + 'inference/'
+    inference_path.mkdir(parents=True, exist_ok=True)
 
-    return outpath
+    return str(inference_path) + "/"
 
 
 def remove_zero_variance(df: pd.DataFrame) -> pd.DataFrame:
