@@ -73,7 +73,7 @@ We recommend installation of GrooD via pip:
 pip install grood
 ```
 
-The GitHub Repo also provides code to clone and run the repo directly (``grood_bin``). To run the code (via ``python grood.py``), install with files from the ```env```directory. We provide a starting point for mamba/conda as well as pip environments.
+The GitHub Repo also provides code to clone and run the repo directly (``grood_bin``). To run the code (for info run ``python grood.py --help``), install with files from the ```env```directory. We provide a starting point for mamba/conda as well as pip environments.
 
 Conda/mamba environment
 ```bash
