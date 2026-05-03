@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "grood"
-version = "0.1.1"
+version = "0.1.2"
 description = "GrooD - a pseudobulk-trained gradient boosting model for bulk transcriptome deconvolution"
 readme = "README.md"
 requires-python = ">=3.11"

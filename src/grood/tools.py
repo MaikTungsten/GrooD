@@ -620,7 +620,7 @@ def pseudobulk_norm(pseudobulks, norm, filter_genes):
 
         ##### All genes #####
         if filter_genes == "all":
-            sc.pp.log1p(pseudobulks, target_sum=1e6)
+            sc.pp.log1p(pseudobulks)
             pseudobulkDF = pd.DataFrame(pseudobulks.X, index=pseudobulks.obs_names, columns=pseudobulks.var_names) 
             
         ##### Only mRNA genes #####
@@ -637,7 +637,7 @@ def pseudobulk_norm(pseudobulks, norm, filter_genes):
             
             # Convert to anndata, scale to CPM and convert back to df
             pseudobulks = anndata.AnnData(X=pseudobulkDF)
-            sc.pp.log1p(pseudobulks, target_sum=1e6)
+            sc.pp.log1p(pseudobulks)
             pseudobulkDF = pd.DataFrame(pseudobulks.X, index=pseudobulks.obs_names, columns=pseudobulks.var_names)
 
         ##### remove zero variance genes #####
