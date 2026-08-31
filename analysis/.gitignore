@@ -1,4 +1,4 @@
 revision/*.svg
 revision/*.xlsx
-analyses_old
+analyses_old/*.svg
 *.svg
